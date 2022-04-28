@@ -1,6 +1,5 @@
-# krcs_branches
+This is a dashboard that visualizes call log data collected by the KRCS EOC department.
+This streamlit app shows visualizations of descriptive analysis carried out on the dataset.
 
-This is a web map that shows Kenya Red Cross branches and regions in Kenya. For each branch or region associated details/ attributes are available.
-The webmap was made with Leaflet Js and bootstrap.
-
-The web map can be viewed at https://ichadatateam.github.io/krcs_branches/
+created by 
+[hboneya](https://github.com/geohead/)
