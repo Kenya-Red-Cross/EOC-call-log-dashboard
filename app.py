@@ -260,6 +260,7 @@ calls_this_year = calls_by_years.loc[len(calls_by_years)-1, 'count']
 
 
 calls_by_months = df.set_index('Date').resample('M')["Gender"].count().to_frame('Num of calls').reset_index()
+calls_by_months = calls_by_months[:-1]
 calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
 
 
