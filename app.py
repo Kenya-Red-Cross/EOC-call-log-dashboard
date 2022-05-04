@@ -19,15 +19,8 @@ from google.oauth2 import service_account
 
 
 
-st.set_page_config(
-     page_title="EOC Dashboard",
-     page_icon= Image.open ('resources/krcs-favicon-96x96.png'),
-)
-
-
-
 scopes=[ "https://www.googleapis.com/auth/spreadsheets",
-         'https://www.googleapis.com/auth/drive']
+        'https://www.googleapis.com/auth/drive']
 
 
 credentials = service_account.Credentials.from_service_account_info(
@@ -39,11 +32,12 @@ gc = gspread.authorize(credentials)
 
 headers = ["Date", "Time", "Gender","County","Region","Purpose","Intervention","Status"]
 
+sheet_name = st.secrets["sheet_name"]
 
 @st.cache()
 def get_data ():
 
-    work_sheet = gc.open("Copy of EOC Call Log")
+    work_sheet = gc.open(sheet_name)
     ws = work_sheet.get_worksheet(0)
 
     values = ws.get_all_values()
@@ -307,7 +301,7 @@ st.write("**Created by: [ICHA Data Team](https://github.com/ICHAdatateam)** ")
 
 st.subheader("Snapshot of the dataset")
 st.write (df.head(3))
- 
+
 
 st.subheader("Quick Stats")
 
