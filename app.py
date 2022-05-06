@@ -34,7 +34,7 @@ headers = ["Date", "Time", "Gender","County","Region","Purpose","Intervention","
 
 sheet_name = st.secrets["sheet_name"]
 
-@st.cache()
+@st.cache(ttl = 14400)
 def get_data ():
 
     work_sheet = gc.open(sheet_name)
