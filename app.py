@@ -16,7 +16,10 @@ import gspread
 from google.oauth2 import service_account
 
 
-
+st.set_page_config(
+        page_title="EOC Call log Dashbpard",
+        page_icon=  Image.open ('resources/krcs-favicon-96x96.png')
+    )
 
 
 scopes=[ "https://www.googleapis.com/auth/spreadsheets",
