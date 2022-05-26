@@ -33,11 +33,11 @@ credentials = service_account.Credentials.from_service_account_info(
 
 gc = gspread.authorize(credentials)
 
-headers = ["Date", "Time", "Gender","County","Region","Purpose","Intervention"]
+headers = ["Date", "Time", "Gender","County","Region","Purpose","Intervention","Status"]
 
 sheet_name = st.secrets["sheet_name"]
 
-@st.cache(ttl = 14400)
+@st.cache(ttl = 3600)
 def get_data ():
 
     work_sheet = gc.open(sheet_name)
@@ -209,6 +209,27 @@ if gender_choice:
         df = df[df['Gender']==(st.session_state.my_data)]
 
 
+# Status filter
+
+opts = df['Status'].unique()
+opts = [x for x in opts if pd.isnull(x) == False and x != 'nan']
+options = np.append(opts,'All')
+index = (len (options))-1
+
+status_choice = st.sidebar.selectbox("Status", options, index)
+
+
+if status_choice:
+
+    st.session_state.my_data = status_choice
+
+
+    if (st.session_state.my_data) =='All':
+        df = df
+
+    else:
+        df = df[df['Status']==(st.session_state.my_data)]
+
 
 
 
@@ -268,6 +289,7 @@ region_gender = df.groupby(['Region','Gender']).Gender.count()
 
 region_gender = region_gender.to_frame('Num of calls').reset_index()
 
+status_dist = df.Status.value_counts().rename_axis("Status").reset_index(name='Num of calls')
 
 calls_intervention = df.Intervention.value_counts().rename_axis("Interventions").reset_index(name='Num of calls')
 
@@ -376,3 +398,5 @@ group_bar_graph (purpose_gender, x='Purpose', y = 'Num of calls', t ="Distributi
 bar_graph (calls_intervention, x='Interventions', y = 'Num of calls', t ="Interventions applied")
 
 pie_chart (calls_intervention, v = 'Num of calls',n ='Interventions', t= "Interventions applied")
+
+pie_chart (status_dist, v = 'Num of calls',n ='Status', t= "Status of calls")
