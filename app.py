@@ -281,7 +281,7 @@ calls_county = df.County.value_counts().rename_axis("County").reset_index(name='
 
 calls_purpose = df.Purpose.value_counts().rename_axis("Purpose").reset_index(name='Num of calls')
 
-calls_purpose['percentage'] = ((calls_purpose['Num of calls'] / calls_purpose['Num of calls'].sum())*100).round(2).astype(str) + '%'
+calls_purpose['percentage'] = ((calls_purpose['Num of calls'] / calls_purpose['Num of calls'].sum())*100).round(2).astype(str) + ' %'
 
 calls_gender =  df.Gender.value_counts().rename_axis("Gender").reset_index(name='Num of calls')
 
@@ -289,25 +289,25 @@ purpose_gender = df.groupby(['Purpose','Gender']).Gender.count()
 
 purpose_gender = purpose_gender.to_frame('Num of calls').reset_index()
 
-purpose_gender['percentage'] = ((purpose_gender['Num of calls'] / purpose_gender['Num of calls'].sum())*100).round(2).astype(str) + '%'
+purpose_gender['percentage'] = ((purpose_gender['Num of calls'] / purpose_gender['Num of calls'].sum())*100).round(2).astype(str) + ' %'
 
 region_gender = df.groupby(['Region','Gender']).Gender.count()
 
 region_gender = region_gender.to_frame('Num of calls').reset_index()
 
-region_gender['percentage'] = ((region_gender['Num of calls'] / region_gender['Num of calls'].sum())*100).round(2).astype(str) + '%'
+region_gender['percentage'] = ((region_gender['Num of calls'] / region_gender['Num of calls'].sum())*100).round(2).astype(str) + ' %'
 
 status_dist = df.Status.value_counts().rename_axis("Status").reset_index(name='Num of calls')
 
 calls_intervention = df.Intervention.value_counts().rename_axis("Interventions").reset_index(name='Num of calls')
 
-calls_intervention['percentage'] = ((calls_intervention['Num of calls'] / calls_intervention['Num of calls'].sum())*100).round(2).astype(str) + '%'
+calls_intervention['percentage'] = ((calls_intervention['Num of calls'] / calls_intervention['Num of calls'].sum())*100).round(2).astype(str) + ' %'
 
 regions_county = df.groupby(['Region','County']).County.count()
 
 regions_county = regions_county.to_frame('Num of calls').reset_index()
 
-regions_county['percentage'] = ((regions_county['Num of calls'] / regions_county['Num of calls'].sum())*100).round(2).astype(str) + '%'
+regions_county['percentage'] = ((regions_county['Num of calls'] / regions_county['Num of calls'].sum())*100).round(2).astype(str) + ' %'
 
 
 # main content of the page
