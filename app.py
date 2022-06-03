@@ -281,23 +281,33 @@ calls_county = df.County.value_counts().rename_axis("County").reset_index(name='
 
 calls_purpose = df.Purpose.value_counts().rename_axis("Purpose").reset_index(name='Num of calls')
 
+calls_purpose['percentage'] = ((calls_purpose['Num of calls'] / calls_purpose['Num of calls'].sum())*100).round(2).astype(str) + '%'
+
 calls_gender =  df.Gender.value_counts().rename_axis("Gender").reset_index(name='Num of calls')
 
 purpose_gender = df.groupby(['Purpose','Gender']).Gender.count()
 
 purpose_gender = purpose_gender.to_frame('Num of calls').reset_index()
 
+purpose_gender['percentage'] = ((purpose_gender['Num of calls'] / purpose_gender['Num of calls'].sum())*100).round(2).astype(str) + '%'
+
 region_gender = df.groupby(['Region','Gender']).Gender.count()
 
 region_gender = region_gender.to_frame('Num of calls').reset_index()
+
+region_gender['percentage'] = ((region_gender['Num of calls'] / region_gender['Num of calls'].sum())*100).round(2).astype(str) + '%'
 
 status_dist = df.Status.value_counts().rename_axis("Status").reset_index(name='Num of calls')
 
 calls_intervention = df.Intervention.value_counts().rename_axis("Interventions").reset_index(name='Num of calls')
 
+calls_intervention['percentage'] = ((calls_intervention['Num of calls'] / calls_intervention['Num of calls'].sum())*100).round(2).astype(str) + '%'
+
 regions_county = df.groupby(['Region','County']).County.count()
 
 regions_county = regions_county.to_frame('Num of calls').reset_index()
+
+regions_county['percentage'] = ((regions_county['Num of calls'] / regions_county['Num of calls'].sum())*100).round(2).astype(str) + '%'
 
 
 # main content of the page
@@ -405,32 +415,34 @@ try:
 except Exception  as e:
     print (e)
 
+
 with st.expander("View table"):
     mytable(regions_county, title="")
 
 bar_graph (calls_region , x='Region', y = 'Num of calls', t ="Calls per region")
 
-
-
 bar_graph (calls_county, x='County', y = 'Num of calls', t ="Calls per county")
 
 with st.expander("View table"):
-    mytable(calls_purpose, title="Calls by Purpose table")
+    mytable(calls_purpose, title="")
 
 pie_chart (calls_purpose, n='Purpose', v = 'Num of calls', t ="Calls by purpose")
 
 pie_chart (calls_gender, v = 'Num of calls',n ='Gender', t= "Calls by gender")
 
 with st.expander("View table"):
-    mytable(region_gender, title="Region and gender table")
+    mytable(region_gender, title="")
+
 group_bar_graph (region_gender, x='Region', y = 'Num of calls', t ="Distribution by region and gender", c='Gender',b='group')
 
 with st.expander("View table"):
-    mytable(purpose_gender, title="Purpose and gender table")
+    mytable(purpose_gender, title="")
+
 group_bar_graph (purpose_gender, x='Purpose', y = 'Num of calls', t ="Distribution by purpose and gender", c='Gender',b='group')
 
 with st.expander("View table"):
-    mytable(calls_intervention, title="Intervention for calls table")
+    mytable(calls_intervention, title="")
+
 bar_graph (calls_intervention, x='Interventions', y = 'Num of calls', t ="Interventions applied")
 
 pie_chart (calls_intervention, v = 'Num of calls',n ='Interventions', t= "Interventions applied")
