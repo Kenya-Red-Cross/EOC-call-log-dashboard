@@ -14,7 +14,7 @@ from PIL import Image
 import plotly.express as px
 import gspread
 from google.oauth2 import service_account
-
+import plotly.graph_objects as go
 
 st.set_page_config(
         page_title="EOC Call log Dashbpard",
@@ -240,7 +240,7 @@ st.sidebar.info(
     "comments, questions and resources as "
     "[issues](https://github.com/Kenya-Red-Cross/EOC-call-log-dashboard) or "
     "[pull requests](https://github.com/Kenya-Red-Cross/EOC-call-log-dashboard/pulls) "
-    "to the [source code](https://github.com/Kenya-Red-Cross/EOC-call-log-dashboard). "
+    "to the [source code](https://github.com/Kenya-Red-Cross/EOC-call-log-dashboard/blob/main/app.py). "
     "You can also reach out to hindada.boneya@icha.net")
 
 
@@ -263,7 +263,8 @@ calls_by_years = df.set_index('Date').resample('Y')["Gender"].count().to_frame('
 calls_this_year = calls_by_years.loc[len(calls_by_years)-1, 'count']
 
 
-calls_by_months = df.set_index('Date').resample('M')["Gender"].count().to_frame('Num of calls').reset_index()
+calls_by_months = df.set_index('Date').resample('MS')["Gender"].count().to_frame('Num of calls').reset_index()
+
 calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
 
 
@@ -274,6 +275,7 @@ c_b_m_d = calls_by_month_days.pivot(index="Month", columns=["Day"],values="count
 
 
 calls_region = df.Region.value_counts().rename_axis("Region").reset_index(name='Num of calls')
+
 
 calls_county = df.County.value_counts().rename_axis("County").reset_index(name='Num of calls')
 
@@ -293,18 +295,20 @@ status_dist = df.Status.value_counts().rename_axis("Status").reset_index(name='N
 
 calls_intervention = df.Intervention.value_counts().rename_axis("Interventions").reset_index(name='Num of calls')
 
+regions_county = df.groupby(['Region','County']).County.count()
 
+regions_county = regions_county.to_frame('Num of calls').reset_index()
 
 
 # main content of the page
 
 st.title ("EOC Call Log Dashboard")
 st.write ("This dashboard visualizes incidents reported through the KRCS EOC call centre. Data comes from a Google sheets endpoint.")
-st.write("**Created by: [ICHA Data Team](https://github.com/ICHAdatateam)** ")
-
+st.write("**Created by: [ICHA Data Team](http://www.icha.net/data)** ")
 
 st.subheader("Snapshot of the dataset")
-st.write (df.head(3))
+
+st.write(df.head(4))
 
 
 st.subheader("Quick Stats")
@@ -367,6 +371,26 @@ def heat_map(d):
     fig.update_xaxes(side="top")
     st.plotly_chart(fig)
 
+def mytable (df, title):
+    fig = go.Figure(
+            data = [go.Table (
+                header = dict(
+                 values = list(df.columns),
+                 font=dict(size=12, color = 'white'),
+                 fill_color = '#ED1B2E',
+                 align = 'left',
+                 height=20
+                 )
+              , cells = dict(
+                  values = [df[K].tolist() for K in df.columns], 
+                  font=dict(size=12),
+                  align = 'left',
+                  fill_color='#F0F2F6',
+                  height=20))]) 
+
+    fig.update_layout(title_text=title,title_font_color = '#264653',title_x=0,margin= dict(l=0,r=10,b=10,t=30), height=480)
+    st.plotly_chart(fig, use_container_width=True)
+    
 
 
 # calling graphing functions with appropraite arguements
@@ -381,20 +405,32 @@ try:
 except Exception  as e:
     print (e)
 
-
+with st.expander("View table"):
+    mytable(regions_county, title="")
 
 bar_graph (calls_region , x='Region', y = 'Num of calls', t ="Calls per region")
 
+
+
 bar_graph (calls_county, x='County', y = 'Num of calls', t ="Calls per county")
+
+with st.expander("View table"):
+    mytable(calls_purpose, title="Calls by Purpose table")
 
 pie_chart (calls_purpose, n='Purpose', v = 'Num of calls', t ="Calls by purpose")
 
 pie_chart (calls_gender, v = 'Num of calls',n ='Gender', t= "Calls by gender")
 
+with st.expander("View table"):
+    mytable(region_gender, title="Region and gender table")
 group_bar_graph (region_gender, x='Region', y = 'Num of calls', t ="Distribution by region and gender", c='Gender',b='group')
 
+with st.expander("View table"):
+    mytable(purpose_gender, title="Purpose and gender table")
 group_bar_graph (purpose_gender, x='Purpose', y = 'Num of calls', t ="Distribution by purpose and gender", c='Gender',b='group')
 
+with st.expander("View table"):
+    mytable(calls_intervention, title="Intervention for calls table")
 bar_graph (calls_intervention, x='Interventions', y = 'Num of calls', t ="Interventions applied")
 
 pie_chart (calls_intervention, v = 'Num of calls',n ='Interventions', t= "Interventions applied")
