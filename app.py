@@ -17,7 +17,7 @@ from google.oauth2 import service_account
 import plotly.graph_objects as go
 
 st.set_page_config(
-        page_title="EOC Call log Dashbpard",
+        page_title="EOC Call log Dashboard",
         page_icon=  Image.open ('resources/krcs-favicon-96x96.png')
     )
 
@@ -88,7 +88,7 @@ oldest_date = oldest_date.date()
 latest_date = latest_date.date()
 
 
-st.sidebar.header("Filter data according to:")
+st.sidebar.header("Filter by date:")
 
 start_date = st.sidebar.date_input ("Start Date:", value = oldest_date, min_value= oldest_date, max_value = latest_date)
 
@@ -137,6 +137,34 @@ if region_choice:
 
     else:
         df = df[df['Region']==(st.session_state.my_data)]
+
+
+
+#county filter
+opts = df['County'].unique()
+opts = [x for x in opts if pd.isnull(x) == False and x != 'nan']
+options = np.append(opts,'All')
+
+
+index = (len (options))-1
+
+county_choice = st.sidebar.selectbox("County", options , index)
+
+
+
+
+if county_choice:
+
+    st.session_state.my_data= county_choice
+
+    if (st.session_state.my_data) =='All':
+        df = df
+
+    else:
+        df = df[df['County']==(st.session_state.my_data)]
+
+
+
 
 
 # Purpose filter   
