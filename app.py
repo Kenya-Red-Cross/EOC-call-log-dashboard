@@ -114,6 +114,30 @@ if (start_date and end_date):
 
 st.sidebar.subheader ("Filter by Categories:")
 
+# Purpose filter   
+
+opts = (df['Purpose'].unique())
+opts = [x for x in opts if pd.isnull(x) == False and x != 'nan']
+options = np.append(opts,'All')
+
+
+index = (len (options))-1
+
+purpose_choice = st.sidebar.selectbox("Purpose", options, index )
+
+
+
+if purpose_choice:
+    st.session_state.my_data = purpose_choice
+
+
+    if (st.session_state.my_data) =='All':
+        df = df
+
+    else:
+        df = df[df['Purpose']==( st.session_state.my_data)]
+
+
 # Region filter
 
 opts = df['Region'].unique()
@@ -142,13 +166,13 @@ if region_choice:
 
 #county filter
 opts = df['County'].unique()
-opts = [x for x in opts if pd.isnull(x) == False and x != 'nan']
-options = np.append(opts,'All')
+options = [x for x in opts if pd.isnull(x) == False and x != 'nan']
 
 
 index = (len (options))-1
 
-county_choice = st.sidebar.selectbox("County", options , index)
+county_choice = st.sidebar.multiselect("County", options )
+
 
 
 
@@ -161,34 +185,8 @@ if county_choice:
         df = df
 
     else:
-        df = df[df['County']==(st.session_state.my_data)]
+        df = df[df['County'].isin(st.session_state.my_data)]
 
-
-
-
-
-# Purpose filter   
-
-opts = (df['Purpose'].unique())
-opts = [x for x in opts if pd.isnull(x) == False and x != 'nan']
-options = np.append(opts,'All')
-
-
-index = (len (options))-1
-
-purpose_choice = st.sidebar.selectbox("Purpose", options, index )
-
-
-
-if purpose_choice:
-    st.session_state.my_data = purpose_choice
-
-
-    if (st.session_state.my_data) =='All':
-        df = df
-
-    else:
-        df = df[df['Purpose']==( st.session_state.my_data)]
 
 
 # Intervention filter
@@ -342,7 +340,7 @@ regions_county['percentage'] = ((regions_county['Num of calls'] / regions_county
 
 st.title ("EOC Call Log Dashboard")
 st.write ("This dashboard visualizes incidents reported through the KRCS EOC call centre. Data comes from a Google sheets endpoint.")
-st.write("**Created by: [ICHA Data Team](http://www.icha.net/data)** ")
+st.write("**Developed by: [ICHA Data Team](http://www.icha.net/data)** ")
 
 st.subheader("Snapshot of the dataset")
 
