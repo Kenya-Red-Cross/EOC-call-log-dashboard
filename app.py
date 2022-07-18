@@ -459,12 +459,12 @@ pie_chart (calls_gender, v = 'Num of calls',n ='Gender', t= "Calls by gender")
 with st.expander("View table"):
     mytable(region_gender, title="")
 
-group_bar_graph (region_gender, x='Region', y = 'Num of calls', t ="Distribution by region and gender", c='Gender',b='group')
+group_bar_graph (region_gender, x='Region', y = 'Num of calls', t ="Distribution of calls by region and gender", c='Gender',b='group')
 
 with st.expander("View table"):
     mytable(purpose_gender, title="")
 
-group_bar_graph (purpose_gender, x='Purpose', y = 'Num of calls', t ="Distribution by purpose and gender", c='Gender',b='group')
+group_bar_graph (purpose_gender, x='Purpose', y = 'Num of calls', t ="Distribution of calls by purpose and gender", c='Gender',b='group')
 
 with st.expander("View table"):
     mytable(calls_intervention, title="")
