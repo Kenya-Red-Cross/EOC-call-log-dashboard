@@ -363,7 +363,7 @@ col4.metric(label="Calls latest year:", value= calls_this_year)
 # plotly graphing fuctions defined here
 
 def bar_graph (d, x, y,t,c=None,b=None):
-    fig = px.bar (d ,x= x, y = y,text_auto='.3s',color= c, title = t, barmode = b, color_discrete_sequence= ['#ed1b2e'])
+    fig = px.bar (d ,x= x, y = y, color= c, title = t, barmode = b, color_discrete_sequence= ['#ed1b2e'])
     fig.update_layout({
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         'paper_bgcolor': 'rgba(248, 248, 248, 1)',
@@ -372,7 +372,7 @@ def bar_graph (d, x, y,t,c=None,b=None):
     st.plotly_chart(fig)
 
 def group_bar_graph (d, x, y,t,c=None,b=None):
-    fig = px.bar (d ,x= x, y = y,text_auto='.3s',color= c, title = t, barmode = b)
+    fig = px.bar (d ,x= x, y = y ,color= c, title = t, barmode = b)
     fig.update_layout({
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         'paper_bgcolor': 'rgba(248, 248, 248, 1)',
