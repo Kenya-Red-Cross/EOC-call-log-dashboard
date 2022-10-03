@@ -8,7 +8,7 @@ Created by: hindada.boneya@icha.net
 
 import streamlit as st
 import pandas as pd 
-from datetime import date, time
+from datetime import date
 import numpy as np
 from PIL import Image
 import plotly.express as px
@@ -366,18 +366,18 @@ col4.metric(label="Calls latest year:", value= calls_this_year)
 def bar_graph (d, x, y,t,c=None,b=None):
     fig = px.bar (d ,x= x, y = y, color= c, title = t, barmode = b, color_discrete_sequence= ['#ed1b2e'])
     fig.update_layout({
-        'plot_bgcolor': 'rgba(20, 20, 20)',
-        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         })
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(213, 233, 255)')
     fig.update_traces (textfont_size=12, textangle=0, textposition="inside", cliponaxis=False)
     st.plotly_chart(fig)
 
 def group_bar_graph (d, x, y,t,c=None,b=None):
     fig = px.bar (d ,x= x, y = y ,color= c, title = t, barmode = b)
     fig.update_layout({
-        'plot_bgcolor': 'rgba(20, 20, 20)',
-        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         })
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(213, 233, 255)')
     fig.update_traces (textfont_size=12, textangle=0, textposition="inside", cliponaxis=False)
     st.plotly_chart(fig)
 
@@ -386,7 +386,6 @@ def pie_chart (d, v, n,t):
     fig = px.pie (d ,values= v,names = n, title = t)
     fig.update_layout({
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
         })
     fig.update_traces ( textposition="inside")
     st.plotly_chart(fig)
@@ -395,9 +394,9 @@ def pie_chart (d, v, n,t):
 def line_graph(d,x,y,t):
     fig = px.line(d, x=x, y=y, title=t, markers=True)
     fig.update_layout({
-        'plot_bgcolor': 'rgba(20, 20, 20)',
-        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         })
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(213, 233, 255)')
     st.plotly_chart(fig)
 
 def heat_map(d):
