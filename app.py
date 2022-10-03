@@ -8,7 +8,7 @@ Created by: hindada.boneya@icha.net
 
 import streamlit as st
 import pandas as pd 
-from datetime import date
+from datetime import date, time
 import numpy as np
 from PIL import Image
 import plotly.express as px
@@ -54,6 +54,7 @@ def get_data ():
     df.columns = df.iloc[0]
     df = df.iloc[1:].reset_index(drop=True)
     df = df.mask(df=="")
+
     df['Date']= pd.to_datetime(df['Date'], errors='coerce')
 
     return df
@@ -365,8 +366,8 @@ col4.metric(label="Calls latest year:", value= calls_this_year)
 def bar_graph (d, x, y,t,c=None,b=None):
     fig = px.bar (d ,x= x, y = y, color= c, title = t, barmode = b, color_discrete_sequence= ['#ed1b2e'])
     fig.update_layout({
-        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        'plot_bgcolor': 'rgba(20, 20, 20)',
+        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
         })
     fig.update_traces (textfont_size=12, textangle=0, textposition="inside", cliponaxis=False)
     st.plotly_chart(fig)
@@ -374,8 +375,8 @@ def bar_graph (d, x, y,t,c=None,b=None):
 def group_bar_graph (d, x, y,t,c=None,b=None):
     fig = px.bar (d ,x= x, y = y ,color= c, title = t, barmode = b)
     fig.update_layout({
-        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        'plot_bgcolor': 'rgba(20, 20, 20)',
+        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
         })
     fig.update_traces (textfont_size=12, textangle=0, textposition="inside", cliponaxis=False)
     st.plotly_chart(fig)
@@ -385,7 +386,7 @@ def pie_chart (d, v, n,t):
     fig = px.pie (d ,values= v,names = n, title = t)
     fig.update_layout({
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
         })
     fig.update_traces ( textposition="inside")
     st.plotly_chart(fig)
@@ -394,8 +395,8 @@ def pie_chart (d, v, n,t):
 def line_graph(d,x,y,t):
     fig = px.line(d, x=x, y=y, title=t, markers=True)
     fig.update_layout({
-        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(248, 248, 248, 1)',
+        'plot_bgcolor': 'rgba(20, 20, 20)',
+        #'paper_bgcolor': 'rgba(248, 248, 248, 1)',
         })
     st.plotly_chart(fig)
 
