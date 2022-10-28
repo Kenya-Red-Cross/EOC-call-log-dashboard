@@ -35,13 +35,14 @@ gc = gspread.authorize(credentials)
 
 headers = ["Date", "Time", "Gender","County","Region","Purpose","Intervention","Status"]
 
+file_name = st.secrets["file_name"]
 sheet_name = st.secrets["sheet_name"]
 
 @st.cache(ttl = 3600)
 def get_data ():
 
-    work_sheet = gc.open(sheet_name)
-    ws = work_sheet.get_worksheet(0)
+    work_sheet = gc.open(file_name)
+    ws = work_sheet.worksheet(sheet_name)
 
     values = ws.get_all_values()
 
@@ -427,7 +428,11 @@ def mytable (df, title):
     fig.update_layout(title_text=title,title_font_color = '#264653',title_x=0,margin= dict(l=0,r=10,b=10,t=30), height=480)
     st.plotly_chart(fig, use_container_width=True)
     
+def treemap_plot (df, p, v):
 
+    fig = px.treemap(df, path=p, values= v)
+    fig.update_traces(root_color="lightgrey")
+    st.plotly_chart(fig)
 
 # calling graphing functions with appropraite arguements
 
@@ -451,6 +456,8 @@ bar_graph (calls_county, x='County', y = 'Num of calls', t ="Calls per county")
 
 with st.expander("View table"):
     mytable(calls_purpose, title="")
+
+#treemap_plot (calls_purpose, p=[px.Constant("Purpose"),'Purpose'], v= 'Num of calls' )
 
 pie_chart (calls_purpose, n='Purpose', v = 'Num of calls', t ="Calls by purpose")
 
