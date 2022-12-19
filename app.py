@@ -304,7 +304,6 @@ calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
 calls_by_month_days = df.groupby([df['Date'].dt.dayofweek.rename("Week"), df['Date'].dt.hour.rename("Hour")]).Gender.agg({'count'}).reset_index()
 c_b_m_d = calls_by_month_days.pivot(index="Week", columns=["Hour"],values="count")
 
-print (c_b_m_d)
 
 
 
