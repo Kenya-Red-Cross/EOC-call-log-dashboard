@@ -347,7 +347,7 @@ regions_county['percentage'] = ((regions_county['Num of calls'] / regions_county
 
 st.title ("EOC Call Log Dashboard (1199)")
 st.write ("This dashboard visualizes data about incidents reported through the KRCS EOC call centre. Data comes from a Google sheets endpoint.")
-st.write("**Developed by: [ICHA Data Team](http://www.icha.net/data)** ")
+st.write("**Developed by: [ICHA Data Team](https://www.icha.net/data-preparedness-unit/)** ")
 
 st.subheader("Snapshot of the dataset")
 
