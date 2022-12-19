@@ -57,13 +57,17 @@ def get_data ():
     df = df.iloc[1:].reset_index(drop=True)
     df = df.mask(df=="")
 
-    df['Date']= pd.to_datetime(df['Date'], errors='coerce')
+    df['datetime'] = df['Date'] + ' ' + df['Time']
+
+    df['Date'] = pd.to_datetime(df['datetime'], format= '%m/%d/%Y %I:%M:%S %p')
 
     return df
 
 
 #run the get_data function and store the resukts in a df
 df = get_data ()
+
+
 
 
 
@@ -297,9 +301,10 @@ calls_by_months = df.set_index('Date').resample('MS')["Gender"].count().to_frame
 calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
 
 
-calls_by_month_days = df.groupby([df['Date'].dt.month.rename("Month"), df['Date'].dt.day_of_week.rename("Day")]).Gender.agg({'count'}).reset_index()
-c_b_m_d = calls_by_month_days.pivot(index="Month", columns=["Day"],values="count")
+calls_by_month_days = df.groupby([df['Date'].dt.dayofweek.rename("Week"), df['Date'].dt.hour.rename("Hour")]).Gender.agg({'count'}).reset_index()
+c_b_m_d = calls_by_month_days.pivot(index="Week", columns=["Hour"],values="count")
 
+print (c_b_m_d)
 
 
 
@@ -403,9 +408,9 @@ def line_graph(d,x,y,t):
 
 def heat_map(d):
     
-    fig = px.imshow(d,title='Heat map',labels=dict(x="Day of the week", y="Month", color="Volume of calls"),text_auto=True,aspect="auto",
-    x=['Mon','Tue','Wed','Thur','Frid','Sat','Sun'],
-    y=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'])
+    fig = px.imshow(d,title='Heat map',labels=dict(x="Hour of Day", y="Day of the Week", color="Volume of calls"),text_auto=True,aspect="auto",
+    x=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','00'],
+    y= ['Mon','Tue','Wed','Thur','Frid','Sat','Sun'])
     fig.update_xaxes(side="top")
     st.plotly_chart(fig)
 
