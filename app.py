@@ -408,7 +408,6 @@ def line_graph(d,x,y,t):
 def heat_map(d):
     
     fig = px.imshow(d,title='Heat map',labels=dict(x="Hour of Day", y="Day of the Week", color="Volume of calls"),text_auto=True,aspect="auto",
-    x=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','00'],
     y= ['Mon','Tue','Wed','Thur','Frid','Sat','Sun'])
     fig.update_xaxes(side="top")
     st.plotly_chart(fig)
