@@ -8,7 +8,7 @@ Created by: hindada.boneya@icha.net
 
 import streamlit as st
 import pandas as pd 
-from datetime import date
+from datetime import date, datetime as dt
 import numpy as np
 from PIL import Image
 import plotly.express as px
@@ -298,10 +298,17 @@ calls_today = len (df[(df['Date'].dt.date == today_date)])
 calls_by_years = df.set_index('Date').resample('Y')["Gender"].count().to_frame('count').reset_index()
 calls_this_year = calls_by_years.loc[len(calls_by_years)-1, 'count']
 
-
 calls_by_months = df.set_index('Date').resample('MS')["Gender"].count().to_frame('Num of calls').reset_index()
 
+current_month = dt.now().month
+current_year = dt.now().year
+
+calls_by_months = calls_by_months[(calls_by_months['Date'].dt.month != current_month) | (calls_by_months['Date'].dt.year != current_year)]
+
+
 calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
+
+
 
 
 calls_by_month_days = df.groupby([df['Date'].dt.dayofweek.rename("Week"), df['Date'].dt.hour.rename("Hour")]).Gender.agg({'count'}).reset_index()
