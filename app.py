@@ -288,8 +288,11 @@ st.sidebar.image(krcs_logo, width=250)
 
 tot_calls = len(df.index)
 
-today_date = date.today().strftime("%Y-%m-%dT%H:%M:%S")
-calls_today = len (df[(df['Date'] == today_date)])
+today_date = date.today()
+
+
+calls_today = len (df[(df['Date'].dt.date == today_date)])
+
 
 
 calls_by_years = df.set_index('Date').resample('Y')["Gender"].count().to_frame('count').reset_index()
