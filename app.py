@@ -361,7 +361,7 @@ st.write("**Developed by: [ICHA Data Team](https://www.icha.net/data-preparednes
 
 st.subheader("Snapshot of the dataset")
 
-st.write(df.head(4))
+st.write(df.tail(4))
 
 
 st.subheader("Quick Stats")
