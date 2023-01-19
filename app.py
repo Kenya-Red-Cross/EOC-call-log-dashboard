@@ -2,7 +2,6 @@
 This is a streamlit dashboard app for visualizing call log data from KRCS EOC centre.
 For queries and comments react out to datateam@redcross.or.ke
 
-Created by: hindada.boneya@icha.net
 '''
 
 
@@ -300,21 +299,15 @@ calls_this_year = calls_by_years.loc[len(calls_by_years)-1, 'count']
 
 calls_by_months = df.set_index('Date').resample('MS')["Gender"].count().to_frame('Num of calls').reset_index()
 
+calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
+
 current_month = dt.now().month
 current_year = dt.now().year
 
 calls_by_months = calls_by_months[(calls_by_months['Date'].dt.month != current_month) | (calls_by_months['Date'].dt.year != current_year)]
 
-
-calls_this_month = calls_by_months.loc[len(calls_by_months)-1, 'Num of calls']
-
-
-
-
 calls_by_month_days = df.groupby([df['Date'].dt.dayofweek.rename("Week"), df['Date'].dt.hour.rename("Hour")]).Gender.agg({'count'}).reset_index()
 c_b_m_d = calls_by_month_days.pivot(index="Week", columns=["Hour"],values="count")
-
-
 
 
 calls_region = df.Region.value_counts().rename_axis("Region").reset_index(name='Num of calls')
